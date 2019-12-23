@@ -103,3 +103,6 @@ deploy:
   type: git
   repository: git@github.com:liajoy/liajoy.github.io.git
   branch: master
+
+sitemap:
+    path: sitemap.xml
