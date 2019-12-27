@@ -106,3 +106,11 @@ deploy:
 
 sitemap:
     path: sitemap.xml
+
+google_analytics:
+  enabled: true
+  id: 'UA-155084071-1'
+
+baidu_analytics:
+  enabled: true
+  id: ab50444b6451ce78b37cf3958209af56
