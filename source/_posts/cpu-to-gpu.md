@@ -40,16 +40,11 @@ tags:
   - depth test
   - antiAliasing
 
-## 参考资料
+## 参考
 
-[Optimizing graphics rendering in Unity games](https://unity3d.com/learn/tutorials/temas/performance-optimization/optimizing-graphics-rendering-unity-games)
-
-[A Modern Multi-Core Processor](http://15418.courses.cs.cmu.edu/spring2015/lecture/basicarch/)
-
-[计算机那些事(8)——图形图像渲染原理](http://chuquan.me/2018/08/26/graphics-rending-principle-gpu/)
-
-[Render Hell](https://simonschreibt.de/gat/renderhell-book2/)
-
-[How GPU Work](https://www.cs.cmu.edu/afs/cs/academic/class/15462-f11/www/lec_slides/lec19.pdf)
-
-[Life of a triangle - NVIDIA's logical pipeline](https://developer.nvidia.com/content/life-triangle-nvidias-logical-pipeline)
+- [Optimizing graphics rendering in Unity games](https://unity3d.com/learn/tutorials/temas/performance-optimization/optimizing-graphics-rendering-unity-games)
+- [A Modern Multi-Core Processor](http://15418.courses.cs.cmu.edu/spring2015/lecture/basicarch/)
+- [计算机那些事(8)——图形图像渲染原理](http://chuquan.me/2018/08/26/graphics-rending-principle-gpu/)
+- [Render Hell](https://simonschreibt.de/gat/renderhell-book2/)
+- [How GPU Work](https://www.cs.cmu.edu/afs/cs/academic/class/15462-f11/www/lec_slides/lec19.pdf)
+- [Life of a triangle - NVIDIA's logical pipeline](https://developer.nvidia.com/content/life-triangle-nvidias-logical-pipeline)

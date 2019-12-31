@@ -92,10 +92,8 @@ gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, faces);
 gl.drawElements(gl.TRIANGLES, 4 * faces.length, gl.UNSIGNED_SHORT, 0);
 ```
 
-## 参考资料
+## 参考
 
-[文字渲染的那些事（一）字体是如何存储的？](https://juejin.im/post/5c1e2e576fb9a049d5197af2)
-
-[文字渲染那些事（二）文字的形状是怎么表示的？](https://juejin.im/post/5c54f19b6fb9a049d05e2b57)
-
-[three source](https://github.com/mrdoob/three.js/)
+- [文字渲染的那些事（一）字体是如何存储的？](https://juejin.im/post/5c1e2e576fb9a049d5197af2)
+- [文字渲染那些事（二）文字的形状是怎么表示的？](https://juejin.im/post/5c54f19b6fb9a049d05e2b57)
+- [three source](https://github.com/mrdoob/three.js/)

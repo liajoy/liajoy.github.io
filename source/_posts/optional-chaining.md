@@ -131,4 +131,4 @@ TS 更新到 3.7 以后可以使用这个特性，VSCode 在 1.41 也支持啦�
 
 ## 参考
 
-[Optional Chaining for JavaScript](https://github.com/tc39/proposal-optional-chaining)
+- [Optional Chaining for JavaScript](https://github.com/tc39/proposal-optional-chaining)

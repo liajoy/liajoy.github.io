@@ -43,3 +43,7 @@ tags:
 - `script` 标签与 `link` 标签会影响文档的解析，所以位于其后的文档内容不会渲染，为什么呢？因为这两个资源有可能会导致 reflow 与 repaint。
 - `script` 标签放在 `body` 尾部是因为不希望它阻塞文档的解析与影响渲染结果。
 - `link` 标签放在 `head` 中是因为不希望页面先渲染出不带样式的结果后再渲染出正确的结果。
+
+## 参考
+
+- [Deciphering the Critical Rendering Path](https://calendar.perfplanet.com/2012/deciphering-the-critical-rendering-path/)
