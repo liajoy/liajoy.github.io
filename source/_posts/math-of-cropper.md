@@ -1,5 +1,5 @@
 ---
-title: math-of-cropper
+title: 裁剪中的初中数学
 date: 2020-01-07 23:33:50
 tags:
 - 幼儿数学
