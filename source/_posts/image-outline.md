@@ -8,7 +8,7 @@ tags:
 ---
 图像描边是设计软件中常见的图像处理功能，在 Photoshop 中，图像应用的描边后的效果是这样：
 
-![outline-in-ps](/images//outline-in-ps.png)
+![outline-in-ps](/images/outline-in-ps.png)
 
 那么如何在 WEB 中实现这样的一个描边呢？笔者在 Google 上混迹了有一段时间，发现了这个功能并不简单，本文是记录关于 WEB 中描边的一些常见实现。
 
@@ -16,7 +16,7 @@ tags:
 
 SVG 里有许多有趣的滤镜，其中的 `feMorphology` 可以达到将某些元素进行「扩张」或者「腐蚀」的效果。我们可以将它用于 [文字描边](https://tympanus.net/codrops/2019/01/22/svg-filter-effects-outline-text-with-femorphology/)。那如果将它应用在图像上呢？
 
-![outline-by-svg-filter](/images//outline-by-svg-filter.png)
+![outline-by-svg-filter](/images/outline-by-svg-filter.png)
 
 [demo](https://codepen.io/liajoy/pen/KKwmwom)
 
@@ -30,7 +30,7 @@ SVG 里有许多有趣的滤镜，其中的 `feMorphology` 可以达到将某些
 
   1. 耗时长，以一张 2000 * 2000px 的图像为例，在 Chrome 下完成一次描边需要 150ms 左右，而在 firefox 下需要 1s ，这也就意味着我们可能无法实时应用描边。
   2. 当描边的宽度超过了实际的图像尺寸后会出现镂空的现象，所以在描边宽度有限制。
-  ![outline-by-offset-bad-result](/images//outline-by-offset-bad-result.png)
+  ![outline-by-offset-bad-result](/images/outline-by-offset-bad-result.png)
   3. 无法实现内描边。
 
 虽然这个方案有些粗暴且「残疾」，但是它没有任何依赖，实现成本相当低。针对性能问题，如果可以迁移到 WebGL 上会有不小的提升。
@@ -52,13 +52,13 @@ ctx.drawImage(image)
 
 再来看看结果：
 
-![outline-by-marching-squares](/images//outline-by-marching-squares.png)
+![outline-by-marching-squares](/images/outline-by-marching-squares.png)
 
 这个方案好像又快又好，而且也能处理描边宽度过大的情况。不过还是有一些缺点：
 
 - 仔细观察，描边边缘还是不够平滑，如下：
 
-![outline-by-marching-squares-edge](/images//outline-by-marching-squares-edge.png)
+![outline-by-marching-squares-edge](/images/outline-by-marching-squares-edge.png)
 
 - 路径越多，绘制就需要越长时间，可以通过一些 [路径简化算法](https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm) 来减少路径点。
 

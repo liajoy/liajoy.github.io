@@ -18,9 +18,9 @@ tags:
 
 我们以微软雅黑为例，在百度字体编辑器中打开后，它的字体信息与度量如下：
 
-![font info](../images/font-info.png)
+![font info](/images/font-info.png)
 
-![font metrics](../images/font-metrics.png)
+![font metrics](/images/font-metrics.png)
 
 可以看到微软雅黑的「Ascent」为 2167，它是相对于「EM Size」的值，所以绝对值需要除以「EM Size」。计算之后得到的是当字号为 1px 时的「Ascent」,所以再乘上字号即可得到相应的值。
 
