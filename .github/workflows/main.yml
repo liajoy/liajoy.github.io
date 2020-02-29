@@ -1,0 +1,28 @@
+name: Deploy
+
+on:
+  push:
+    branches:
+      - source
+
+jobs:
+  deploy:
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Install Dependencies
+      run: npm install
+
+    # Deploy hexo blog website.
+    - name: Deploy
+      id: deploy
+      uses: sma11black/hexo-action@v1.0.0
+      with:
+        deploy_key: ${{ secrets.DEPLOY_KEY }}
+        user_name: liajoy
+        user_email: 403521788@qq.com
+    # Use the output from the `deploy` step(use for test action)
+    - name: Get the output
+      run: |
+        echo "${{ steps.deploy.outputs.notify }}"
