@@ -15,6 +15,7 @@ jobs:
       uses: actions/checkout@v2.0.0
       with:
         ref: source
+        submodules: true
 
     - name: Install Dependencies
       run: npm install
