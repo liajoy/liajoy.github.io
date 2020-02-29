@@ -17,7 +17,7 @@ blob URL 是大家都不陌生的一个特性，对于它，我一直以来都�
 3. 令 origin 为 url record 的 origin。
 4. 令 settings 为 [current settings object](https://html.spec.whatwg.org/multipage/webappapis.html#current-settings-object)。
 5. 如果 origin 与 settings 的 origin 不同则返回。
-6. 删除 Blob URL Store 中的 url 入口
+6. 删除 Blob URL Store 中的 url 入口。
 
 可以看到，当我们销毁 Blob URL 时，如果当前文档的源与 Blob URL 的源不一致，那么 URL 的销毁操作是会是失败的。
 
