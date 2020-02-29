@@ -6,7 +6,7 @@ tags:
 ---
 最近在折腾 Canvas 中的文字排版，是个大坑。我们都知道 Canvas 提供 `textBaseline` 特性使我们能够调整文本的基线位置，它的默认值是 `alphabetic`，与 CSS 中的默认基线位置是一致的，那么在同样的 x 与 y 下，为什么 DOM 的结果与 Canvas 的结果不一致呢？这次就来看看这个问题。
 
-先明确一个点，`fillText(text, x, y)` API 中的参数 `y` 指的是 baseline 的位置，因此 DOM 与 Canvas 的结果不一致。那么要使它们的结果一致，这个 y 的值应该是多少呢？这就得说到字体度量。这是一张字体度量的例子：
+开始前先明确一个点，`fillText(text, x, y)` API 中的参数 `y` 指的是 baseline 的位置，因此 DOM 与 Canvas 的结果不一致。那么要使它们的结果一致，这个 y 的值应该是多少呢？这就得说到字体度量。这是一张字体度量的例子：
 
 ![Glyph metrics](https://developer.apple.com/library/archive/documentation/StringsTextFonts/Conceptual/TextAndWebiPhoneOS/Art/glyphterms_2x.png)
 
