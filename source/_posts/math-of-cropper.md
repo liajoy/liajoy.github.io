@@ -53,7 +53,7 @@ const getCropperRectSize = (innerRect, rotation) => {
 
 具体到数学题就是，已知大矩形 A 与小矩形 B，它们的宽高、旋转角度与位置信息都已知，求矩形 A 到矩形 B 内的最短路径。类似下图的情况：
 
-![crop-drag-demo](/images/crop-drag-demo)
+![crop-drag-demo](/images/crop-drag-demo.gif)
 
 图中的黑色矩形即矩形 A，绿、蓝、粉、黄为四个矩形 B，它们在经过计算后的位置即黑色矩形内的四个对应颜色的矩形。
 
@@ -63,5 +63,9 @@ const getCropperRectSize = (innerRect, rotation) => {
 2. 过矩形 B 四个顶点作四条斜率与步骤 1 的射线相同的 4 条射线
 3. 对每条射线作一个顶点位于射线与矩形 A 的交点上的矩形
 4. 这些矩形中位于矩形 A 中过的即符合规则的矩形
+
+![line-of-crop](/images/line-of-crop.png)
+
+![rect-of-crop](/images/rect-of-crop.png)
 
 最后，2020 年了，愿以后的工作中没有数学。
