@@ -2,17 +2,23 @@
 title: 裁剪中的初中数学
 date: 2020-01-07 23:33:50
 tags:
-- 幼儿数学
+- 开心数学
 ---
 一年半前，开发了一个图片编辑器，里边的裁剪功能折磨的我死去活来。最近，裁剪这个需求又被搬了出来。再回头看那么久远的代码，果然全都忘了。就此重新找一下思路。
 
-抛开冗长的需求描述，归结到的第一个数学问题就是：下图中黑色白色矩形的两个顶点位于黑色矩形的边上，黑色矩形的宽高比例与白色矩形的宽高比例相等，已知白色矩形的宽高和与黑色矩形的旋转角度，求黑色矩形的宽高。
+## 计算旋转后的裁剪框大小
 
-![two-rect](../images/two-rect.png)
+最终效果如下：
+
+![crop-resize](/images/crop-resize.gif)
+
+具体到数学题就是，下图中黑色白色矩形的两个顶点位于黑色矩形的边上，黑色矩形的宽高比例与白色矩形的宽高比例相等，已知白色矩形的宽高和与黑色矩形的旋转角度，求黑色矩形的宽高。
+
+![two-rect](/images/two-rect.png)
 
 这个问题一下把我带回了 2008 年，申奥成功都这么多年了，没想到我还得做几何题。不过仅凭着残余的一些数学知识，折腾了一会还是能勉强解出来的。
 
-![rect-analyze](../images/rect-analyze.png)
+![rect-analyze](/images/rect-analyze.png)
 
 步骤如下：
 
@@ -25,7 +31,7 @@ tags:
 代码呢，就是这样：
 
 ``` javascript
-const getOutRectSize = (innerRect, rotation) => {
+const getCropperRectSize = (innerRect, rotation) => {
     const hypotenuse = Math.hypot(innerRect.width, innerRect.height);
     const angleB = Math.asin(innerRect.height / hypotenuse) * 180 / Math.PI;
     const angleC = rotation;
@@ -39,4 +45,23 @@ const getOutRectSize = (innerRect, rotation) => {
 
 ```
 
-2020 年了，希望以后做需求不做数学题，再简单也不行。
+## 裁剪框拖拽后回弹
+
+当把裁剪框拖拽出裁剪框并且松开鼠标鼠标后，它需要能够回弹到裁剪框内适当的位置，效果如下：
+
+![crop-drag](/images/crop-drag.gif)
+
+具体到数学题就是，已知大矩形 A 与小矩形 B，它们的宽高、旋转角度与位置信息都已知，求矩形 A 到矩形 B 内的最短路径。类似下图的情况：
+
+![crop-drag-demo](/images/crop-drag-demo)
+
+图中的黑色矩形即矩形 A，绿、蓝、粉、黄为四个矩形 B，它们在经过计算后的位置即黑色矩形内的四个对应颜色的矩形。
+
+总体思路是：
+
+1. 作矩形 A 中点与矩形 B 中点的射线
+2. 过矩形 B 四个顶点作四条斜率与步骤 1 的射线相同的 4 条射线
+3. 对每条射线作一个顶点位于射线与矩形 A 的交点上的矩形
+4. 这些矩形中位于矩形 A 中过的即符合规则的矩形
+
+最后，2020 年了，愿以后的工作中没有数学。

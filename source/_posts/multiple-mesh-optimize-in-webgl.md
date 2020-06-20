@@ -21,7 +21,7 @@ tags:
 
 这样可以最大限度地减少切换 shader 或者上传 texture 的次数。
 
-![sort mesh in Tiga](../images/tiga-sort.png)
+![sort mesh in Tiga](/images/tiga-sort.png)
 
 ## 减少 draw call
 
