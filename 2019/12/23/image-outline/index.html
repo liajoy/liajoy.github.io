@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang=en>
+<head>
+    <!-- so meta -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
+    <meta name="description" content="图像描边是设计软件中常见的图像处理功能，在 Canvas 中有 strokeText 能够直接对文字进行描边，那么有没有一个 API 能够对图像进行描边呢？很遗憾，并没有。为什么这么简单的功能都没有？那我们要如何实现描边呢？这就让我们来看看有哪些方案能够实现描边效果。 SVG 滤镜既然 Canvas 没有内置，那万能的 SVG 有没有呢？SVG 里有许多有趣的滤镜，其中的 feMorphology">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Canvas 中的透明图像描边">
+<meta property="og:url" content="https://liajoy.github.io/2019/12/23/image-outline/index.html">
+<meta property="og:site_name" content="liajoy">
+<meta property="og:description" content="图像描边是设计软件中常见的图像处理功能，在 Canvas 中有 strokeText 能够直接对文字进行描边，那么有没有一个 API 能够对图像进行描边呢？很遗憾，并没有。为什么这么简单的功能都没有？那我们要如何实现描边呢？这就让我们来看看有哪些方案能够实现描边效果。 SVG 滤镜既然 Canvas 没有内置，那万能的 SVG 有没有呢？SVG 里有许多有趣的滤镜，其中的 feMorphology">
+<meta property="og:locale" content="en_US">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/3/10/170c0231abf0d8c5?w=1166&h=956&f=png&s=469162">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/3/10/170c4cd52549042f?w=1112&h=1050&f=png&s=569987">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/3/10/170c026bb40f8e1b?w=1274&h=1210&f=png&s=437762">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/3/10/170c0287c6f65af5?w=1382&h=1364&f=png&s=258413">
+<meta property="og:image" content="https://user-gold-cdn.xitu.io/2020/3/10/170c028e487f0576?w=1436&h=1432&f=png&s=1309071">
+<meta property="article:published_time" content="2019-12-22T16:11:14.000Z">
+<meta property="article:modified_time" content="2021-04-05T16:32:42.453Z">
+<meta property="article:author" content="Liajoy">
+<meta property="article:tag" content="Canvas">
+<meta property="article:tag" content="WebGL">
+<meta property="article:tag" content="图像处理">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://user-gold-cdn.xitu.io/2020/3/10/170c0231abf0d8c5?w=1166&h=956&f=png&s=469162">
+    
+    
+      
+        
+          <link rel="shortcut icon" href="/images/favicon.ico">
+        
+      
+      
+        
+          <link rel="icon" type="image/png" href="/images/favicon-192x192.png" sizes="192x192">
+        
+      
+      
+        
+          <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon.png">
+        
+      
+    
+    <!-- title -->
+    <title>Canvas 中的透明图像描边</title>
+    <!-- styles -->
+    
+<link rel="stylesheet" href="/css/style.css">
+
+    <!-- persian styles -->
+    
+    <!-- rss -->
+    
+    
+<meta name="generator" content="Hexo 4.2.1"></head>
+
+<body class="max-width mx-auto px3 ltr">
+    
+      <div id="header-post">
+  <a id="menu-icon" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="menu-icon-tablet" href="#" aria-label="Menu"><i class="fas fa-bars fa-lg"></i></a>
+  <a id="top-icon-tablet" href="#" "Top" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');" style="display:none;"><i class="fas fa-chevron-up fa-lg"></i></a>
+  <span id="menu">
+    <span id="nav">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </span>
+    <br/>
+    <span id="actions">
+      <ul>
+        
+        <li><a class="icon" aria-label="Previous post " href="/2019/12/31/blob-url-scope/"><i class="fas fa-chevron-left" aria-hidden="true" onmouseover="$('#i-prev').toggle();" onmouseout="$('#i-prev').toggle();"></i></a></li>
+        
+        
+        <li><a class="icon" aria-label="Next post " href="/2019/09/23/multiple-mesh-optimize-in-webgl/"><i class="fas fa-chevron-right" aria-hidden="true" onmouseover="$('#i-next').toggle();" onmouseout="$('#i-next').toggle();"></i></a></li>
+        
+        <li><a class="icon" aria-label="Back to top " href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up" aria-hidden="true" onmouseover="$('#i-top').toggle();" onmouseout="$('#i-top').toggle();"></i></a></li>
+        <li><a class="icon" aria-label="Share post " href="#"><i class="fas fa-share-alt" aria-hidden="true" onmouseover="$('#i-share').toggle();" onmouseout="$('#i-share').toggle();" onclick="$('#share').toggle();return false;"></i></a></li>
+      </ul>
+      <span id="i-prev" class="info" style="display:none;">Previous post</span>
+      <span id="i-next" class="info" style="display:none;">Next post</span>
+      <span id="i-top" class="info" style="display:none;">Back to top</span>
+      <span id="i-share" class="info" style="display:none;">Share post</span>
+    </span>
+    <br/>
+    <div id="share" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://liajoy.github.io/2019/12/23/image-outline/" target="_blank" rel="noopener"><i class="fab fa-facebook " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://liajoy.github.io/2019/12/23/image-outline/&text=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-twitter " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://liajoy.github.io/2019/12/23/image-outline/&title=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-linkedin " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liajoy.github.io/2019/12/23/image-outline/&is_video=false&description=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-pinterest " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Canvas 中的透明图像描边&body=Check out this article: https://liajoy.github.io/2019/12/23/image-outline/"><i class="fas fa-envelope " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://liajoy.github.io/2019/12/23/image-outline/&title=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-get-pocket " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://liajoy.github.io/2019/12/23/image-outline/&title=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-reddit " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://liajoy.github.io/2019/12/23/image-outline/&title=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-stumbleupon " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://liajoy.github.io/2019/12/23/image-outline/&title=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-digg " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://liajoy.github.io/2019/12/23/image-outline/&name=Canvas 中的透明图像描边&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr " aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://liajoy.github.io/2019/12/23/image-outline/&t=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-hacker-news " aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+    <div id="toc">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SVG-滤镜"><span class="toc-number">1.</span> <span class="toc-text">SVG 滤镜</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图像偏移"><span class="toc-number">2.</span> <span class="toc-text">图像偏移</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#轮廓提取"><span class="toc-number">3.</span> <span class="toc-text">轮廓提取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Distance-transform"><span class="toc-number">4.</span> <span class="toc-text">Distance transform</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+  </span>
+</div>
+
+    
+    <div class="content index py4">
+        
+        <article class="post" itemscope itemtype="http://schema.org/BlogPosting">
+  <header>
+    
+    <h1 class="posttitle" itemprop="name headline">
+        Canvas 中的透明图像描边
+    </h1>
+
+
+
+    <div class="meta">
+      <span class="author" itemprop="author" itemscope itemtype="http://schema.org/Person">
+        <span itemprop="name">Liajoy</span>
+      </span>
+      
+    <div class="postdate">
+      
+        <time datetime="2019-12-22T16:11:14.000Z" itemprop="datePublished">2019-12-23</time>
+        
+      
+    </div>
+
+
+      
+
+      
+    <div class="article-tag">
+        <i class="fas fa-tag"></i>
+        <a class="tag-link" href="/tags/Canvas/" rel="tag">Canvas</a>, <a class="tag-link" href="/tags/WebGL/" rel="tag">WebGL</a>, <a class="tag-link" href="/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/" rel="tag">图像处理</a>
+    </div>
+
+
+    </div>
+  </header>
+  
+
+  <div class="content" itemprop="articleBody">
+    <p>图像描边是设计软件中常见的图像处理功能，在 Canvas 中有 <code>strokeText</code> 能够直接对文字进行描边，那么有没有一个 API 能够对图像进行描边呢？很遗憾，并没有。为什么这么简单的功能都没有？那我们要如何实现描边呢？这就让我们来看看有哪些方案能够实现描边效果。</p>
+<h2 id="SVG-滤镜"><a href="#SVG-滤镜" class="headerlink" title="SVG 滤镜"></a>SVG 滤镜</h2><p>既然 Canvas 没有内置，那万能的 SVG 有没有呢？SVG 里有许多有趣的滤镜，其中的 <code>feMorphology</code> 可以达到将某些元素进行「扩张」或者「腐蚀」的效果。我们可以用它实现 <a href="https://tympanus.net/codrops/2019/01/22/svg-filter-effects-outline-text-with-femorphology/" target="_blank" rel="noopener">文字描边</a>。那如果将它 <a href="https://codepen.io/liajoy/pen/KKwmwom" target="_blank" rel="noopener">应用在图像上</a> 呢？</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/3/10/170c0231abf0d8c5?w=1166&h=956&f=png&s=469162" alt="outline-by-svg-filter"></p>
+<p>好吧，看起来效果和我们的需求相去甚远，只得放弃这个方案。</p>
+<h2 id="图像偏移"><a href="#图像偏移" class="headerlink" title="图像偏移"></a>图像偏移</h2><p>我们先选择一张简单的矩形图像，如果将它进行填充并复制 8 份，把这 8 张分别沿着上、下、左、右、左上、左下、右上、右下八个方向进行偏移，就能完成对矩形图像的描边。不过它的描边结果不「圆润」，如果复制更多份，比如 360 份，让图像往 360 个方向进行偏移不就能做出圆角了吗？让我们看看结果：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/3/10/170c4cd52549042f?w=1112&h=1050&f=png&s=569987" alt="outline-by-offset"></p>
+<p>不过这个方案有着不少缺点：</p>
+<ol>
+<li>耗时长，以一张 2000 * 2000px 的图像为例，在 Chrome 下完成一次描边需要 150ms 左右，而在 firefox 下需要 1s ，这也就意味着我们可能无法实时应用描边。</li>
+<li>当描边的宽度超过了实际的图像尺寸后会出现镂空的现象，所以在描边宽度与图像尺寸上有限制。就像这样：<br><img src="https://user-gold-cdn.xitu.io/2020/3/10/170c026bb40f8e1b?w=1274&h=1210&f=png&s=437762" alt="outline-by-offset-bad-result"></li>
+<li>无法实现内描边。</li>
+</ol>
+<p>虽然这个方案有些粗暴，但是它不涉及任何算法，更像是一个脑经急转弯，实现成本相当低。针对性能问题，如果可以迁移到 WebGL 上会有不小的提升（嗯？门槛好像变高了？）,  <a href="https://github.com/pixijs/pixi-filters/tree/master/filters/outline" target="_blank" rel="noopener">pixi.js 的描边滤镜</a> 就是采用这个方案。</p>
+<h2 id="轮廓提取"><a href="#轮廓提取" class="headerlink" title="轮廓提取"></a>轮廓提取</h2><p>为什么 Canvas 内置了文字描边呢？因为文字已经自带了路径，所以直接绘制路径就完事了。那如果我们能够提取出图片的轮廓路径，是不是一切问题就迎刃而解了呢？</p>
+<p>我们通过使用 <a href="https://en.wikipedia.org/wiki/Marching_squares" target="_blank" rel="noopener">Marching squares 算法</a> 能够从图像中提取出轮廓，得到轮廓路径后，之后只需要将路径绘制出来就行了。为了达到描边边缘圆润的效果，我们需要设置 <code>lineJoin</code> 为 <code>round</code>.</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> outlineWidth = <span class="number">20</span></span><br><span class="line"><span class="keyword">const</span> path = getPath(image)</span><br><span class="line">ctx.lineJoin = <span class="string">'round'</span></span><br><span class="line">ctx.lineWidth = outlineWidth * <span class="number">2</span></span><br><span class="line">drawPath(ctx, path)</span><br><span class="line">ctx.drawImage(image)</span><br></pre></td></tr></table></figure>
+
+<p>再来看看结果，就算是大半径的描边也能正常输出：</p>
+<p><img src="https://user-gold-cdn.xitu.io/2020/3/10/170c0287c6f65af5?w=1382&h=1364&f=png&s=258413" alt="outline-by-marching-squares"></p>
+<p>这个方案好像又快又好，而且也能处理描边宽度过大的情况。不过还是勉强能挑出缺点：</p>
+<ul>
+<li>描边边缘还是不够平滑，如下：</li>
+</ul>
+<p><img src="https://user-gold-cdn.xitu.io/2020/3/10/170c028e487f0576?w=1436&h=1432&f=png&s=1309071" alt="outline-by-marching-squares-edge"></p>
+<ul>
+<li>路径越多，绘制就需要越长时间。对此，可以通过一些 <a href="https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm" target="_blank" rel="noopener">路径简化算法</a> 来减少路径点。</li>
+</ul>
+<h2 id="Distance-transform"><a href="#Distance-transform" class="headerlink" title="Distance transform"></a>Distance transform</h2><p>在轮廓提取的方向上还有另一个思路，我们能够得到图像的边缘之后，再算出整张图像里每个像素点到最近的边缘的距离。当描边宽度等于这个距离时，我们就填充这个像素点，这样便实现了描边。</p>
+<p><a href="https://en.wikipedia.org/wiki/Distance_transform" target="_blank" rel="noopener">Distance transform</a> 是一种计算二值图各像素点到边缘距离的算法。通过一段简单的代码理解一下这个算法：</p>
+<figure class="highlight javascript"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">const</span> getPixelByPosition = <span class="function">(<span class="params">pixels, x, y</span>) =&gt;</span> &#123; <span class="attr">alpha</span>: <span class="number">0</span> &#125;</span><br><span class="line"><span class="keyword">const</span> checkTransparent = <span class="function"><span class="params">pixel</span> =&gt;</span> pixel.alpha &lt; <span class="number">255</span></span><br><span class="line"><span class="comment">// 欧拉距离计算</span></span><br><span class="line"><span class="keyword">const</span> euclideanDistance = <span class="function">(<span class="params">x1, y1, x2, y2</span>) =&gt;</span> (</span><br><span class="line">  sqrt(<span class="built_in">Math</span>.pow(x1 - x2, <span class="number">2</span>) + <span class="built_in">Math</span>.pow(y1 - y2, <span class="number">2</span>))</span><br><span class="line">)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span>(<span class="keyword">let</span> pixel <span class="keyword">of</span> pixels) &#123;</span><br><span class="line">  <span class="keyword">const</span> isTransparent = checkTransparent(pixel)</span><br><span class="line">  <span class="keyword">let</span> &#123; x, y &#125; = pixel</span><br><span class="line">  <span class="keyword">let</span> min = <span class="literal">Infinity</span></span><br><span class="line">  <span class="comment">// 判断目标是否位于图像边缘</span></span><br><span class="line">  <span class="keyword">for</span>(<span class="keyword">let</span> ox = <span class="number">0</span>; ox &lt; width; ox++) &#123;</span><br><span class="line">    <span class="keyword">for</span>(<span class="keyword">let</span> oy = <span class="number">0</span>; oy &lt; height; oy++) &#123;</span><br><span class="line">        <span class="keyword">const</span> current = getPixelByPosition(pixels, ox, oy)</span><br><span class="line">        <span class="keyword">if</span>(</span><br><span class="line">          <span class="comment">// 当前像素透明并且目标像素不透明</span></span><br><span class="line">          isTransparent &amp;&amp; !checkTransparent(current) ||</span><br><span class="line">          <span class="comment">// 当前像素不透明并且目标像素透明</span></span><br><span class="line">          !isTransparent &amp;&amp; checkTransparent(current)</span><br><span class="line">        ) &#123;</span><br><span class="line">          min = <span class="built_in">Math</span>.min(euclideanDistance(x, y, ox, oy), min)</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>一句话说明就是逐像素地查找距离边缘的最短距离。不过这段代码复杂度太高了，实际场景根本无法用。我们可以选择现成的优秀算法，不过无论如何优化，复杂度也低不了多少，经过测试，2000 * 2000px 的图像需要 300ms。所以对于大尺寸图像，这个方案注定快不起来。尽管如此，当只要计算出距离数据后，之后的渲染和更新都不再是问题，我们可以轻松得做到实时更新描边结果。</p>
+<p>另外，这类像素操作如果不经过抗锯齿的处理往往会产生「毛刺」，实时 CPU 锯齿计算显然不是一个好选择，于是我们就只剩 WebGL 可用了。那么在 WebGL 中如何解决这类简单的「毛刺」呢？在 <a href="https://thebookofshaders.com/07/" target="_blank" rel="noopener">The Book Of Shaders</a> 中通过 <code>smoothstep</code> 画出了一个更 「圆」 的圆，我们也可以基于此函数来解决这个「毛刺」问题。</p>
+<p>这个方案除了初始化距离数据的时间过长以外，几乎没有其他缺点，并且相比其他方案，我们可以通过使用 <a href="http://parmanoir.com/distance/" target="_blank" rel="noopener">不同的距离函数</a> 来达到不同的描边效果。这个方案有不少现成的应用，例如 <a href="https://mapbox.github.io/tiny-sdf/" target="_blank" rel="noopener">tiny-sdf</a>。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>看似简单的描边，却有着不简单的方案。总结一下以上三个方案，这几个方案都各有优缺点，从性能、效果和门槛三个维度上来看排名大致是如下（针对 2000 * 2000px 的图像而言）：</p>
+<ul>
+<li>性能：轮廓提取 &gt; 图像偏移 &gt; Distance Transform（初始久）</li>
+<li>效果：Distance Transform &gt;= 图像偏移 &gt; 轮廓提取</li>
+<li>门槛：Distance Transform &gt; 轮廓提取 &gt; 图像偏移</li>
+</ul>
+<p>最后，放上基于本文的 <a href="https://github.com/liajoy/image-stroke/" target="_blank" rel="noopener">实践仓库</a> 与 <a href="https://liajoy.github.io/image-stroke/example-dist/">在线预览</a>。</p>
+<h2 id="参考"><a href="#参考" class="headerlink" title="参考"></a>参考</h2><ul>
+<li><a href="https://tympanus.net/codrops/2019/01/22/svg-filter-effects-outline-text-with-femorphology/" target="_blank" rel="noopener">SVG Filter Effects: Outline Text with <feMorphology></a></li>
+<li><a href="https://en.wikipedia.org/wiki/Marching_squares" target="_blank" rel="noopener">Marching squares</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Ramer%E2%80%93Douglas%E2%80%93Peucker_algorithm" target="_blank" rel="noopener">Ramer–Douglas–Peucker algorithm</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Distance_transform" target="_blank" rel="noopener">Distance transform</a></li>
+<li><a href="http://www.david-web.appspot.com/cnt/OpenCLDistanceTransform/" target="_blank" rel="noopener">Implementation of the Distance Transform on OpenCL (CUDA, GPU)</a></li>
+<li><a href="https://thebookofshaders.com/07/" target="_blank" rel="noopener">The Book of Shaders: Shapes</a></li>
+<li><a href="http://parmanoir.com/distance/" target="_blank" rel="noopener">Meijster distance</a></li>
+</ul>
+
+  </div>
+</article>
+
+
+
+        
+          <div id="footer-post-container">
+  <div id="footer-post">
+
+    <div id="nav-footer" style="display: none">
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </div>
+
+    <div id="toc-footer" style="display: none">
+      <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#SVG-滤镜"><span class="toc-number">1.</span> <span class="toc-text">SVG 滤镜</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#图像偏移"><span class="toc-number">2.</span> <span class="toc-text">图像偏移</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#轮廓提取"><span class="toc-number">3.</span> <span class="toc-text">轮廓提取</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Distance-transform"><span class="toc-number">4.</span> <span class="toc-text">Distance transform</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#总结"><span class="toc-number">5.</span> <span class="toc-text">总结</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#参考"><span class="toc-number">6.</span> <span class="toc-text">参考</span></a></li></ol>
+    </div>
+
+    <div id="share-footer" style="display: none">
+      <ul>
+  <li><a class="icon" href="http://www.facebook.com/sharer.php?u=https://liajoy.github.io/2019/12/23/image-outline/" target="_blank" rel="noopener"><i class="fab fa-facebook fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://twitter.com/share?url=https://liajoy.github.io/2019/12/23/image-outline/&text=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-twitter fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.linkedin.com/shareArticle?url=https://liajoy.github.io/2019/12/23/image-outline/&title=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-linkedin fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://pinterest.com/pin/create/bookmarklet/?url=https://liajoy.github.io/2019/12/23/image-outline/&is_video=false&description=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-pinterest fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="mailto:?subject=Canvas 中的透明图像描边&body=Check out this article: https://liajoy.github.io/2019/12/23/image-outline/"><i class="fas fa-envelope fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://getpocket.com/save?url=https://liajoy.github.io/2019/12/23/image-outline/&title=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-get-pocket fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://reddit.com/submit?url=https://liajoy.github.io/2019/12/23/image-outline/&title=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-reddit fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.stumbleupon.com/submit?url=https://liajoy.github.io/2019/12/23/image-outline/&title=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-stumbleupon fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://digg.com/submit?url=https://liajoy.github.io/2019/12/23/image-outline/&title=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-digg fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="http://www.tumblr.com/share/link?url=https://liajoy.github.io/2019/12/23/image-outline/&name=Canvas 中的透明图像描边&description=" target="_blank" rel="noopener"><i class="fab fa-tumblr fa-lg" aria-hidden="true"></i></a></li>
+  <li><a class="icon" href="https://news.ycombinator.com/submitlink?u=https://liajoy.github.io/2019/12/23/image-outline/&t=Canvas 中的透明图像描边" target="_blank" rel="noopener"><i class="fab fa-hacker-news fa-lg" aria-hidden="true"></i></a></li>
+</ul>
+
+    </div>
+
+    <div id="actions-footer">
+        <a id="menu" class="icon" href="#" onclick="$('#nav-footer').toggle();return false;"><i class="fas fa-bars fa-lg" aria-hidden="true"></i> Menu</a>
+        <a id="toc" class="icon" href="#" onclick="$('#toc-footer').toggle();return false;"><i class="fas fa-list fa-lg" aria-hidden="true"></i> TOC</a>
+        <a id="share" class="icon" href="#" onclick="$('#share-footer').toggle();return false;"><i class="fas fa-share-alt fa-lg" aria-hidden="true"></i> Share</a>
+        <a id="top" style="display:none" class="icon" href="#" onclick="$('html, body').animate({ scrollTop: 0 }, 'fast');"><i class="fas fa-chevron-up fa-lg" aria-hidden="true"></i> Top</a>
+    </div>
+
+  </div>
+</div>
+
+        
+        <footer id="footer">
+  <div class="footer-left">
+    Copyright &copy;
+    
+    
+    2016-2021
+    Liajoy
+  </div>
+  <div class="footer-right">
+    <nav>
+      <ul>
+         
+          <li><a href="/">Home</a></li>
+         
+          <li><a href="/about/">About</a></li>
+         
+          <li><a href="/archives/">Writing</a></li>
+         
+          <li><a href="/projects_url">Projects</a></li>
+        
+      </ul>
+    </nav>
+  </div>
+</footer>
+
+    </div>
+    <!-- styles -->
+
+
+
+  <link rel="preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.2/css/all.min.css" crossorigin="anonymous" onload="this.onload=null;this.rel='stylesheet'"/>
+
+
+    <!-- jquery -->
+ 
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js" crossorigin="anonymous"></script> 
+
+
+
+
+<!-- clipboard -->
+
+  
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.7/clipboard.min.js" crossorigin="anonymous"></script> 
+  
+  <script type="text/javascript">
+  $(function() {
+    // copy-btn HTML
+    var btn = "<span class=\"btn-copy tooltipped tooltipped-sw\" aria-label=\"Copy to clipboard!\">";
+    btn += '<i class="far fa-clone"></i>';
+    btn += '</span>'; 
+    // mount it!
+    $(".highlight table").before(btn);
+    var clip = new ClipboardJS('.btn-copy', {
+      text: function(trigger) {
+        return Array.from(trigger.nextElementSibling.querySelectorAll('.code')).reduce((str,it)=>str+it.innerText+'\n','')
+      }
+    });
+    clip.on('success', function(e) {
+      e.trigger.setAttribute('aria-label', "Copied!");
+      e.clearSelection();
+    })
+  })
+  </script>
+
+
+<script src="/js/main.js"></script>
+
+<!-- search -->
+
+<!-- Google Analytics -->
+
+<!-- Baidu Analytics -->
+
+<!-- Cloudflare Analytics -->
+
+<!-- Umami Analytics -->
+
+<!-- Disqus Comments -->
+
+
+</body>
+</html>

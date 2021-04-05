@@ -4,92 +4,173 @@
   <url>
     <loc>https://liajoy.github.io/tags/index.html</loc>
     
-    <lastmod>2020-10-28T12:46:44.840Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://liajoy.github.io/2019/09/23/multiple-mesh-optimize-in-webgl/</loc>
-    
-    <lastmod>2020-10-28T12:46:44.674Z</lastmod>
+    <lastmod>2021-04-05</lastmod>
     
   </url>
   
   <url>
     <loc>https://liajoy.github.io/2020/01/07/math-of-cropper/</loc>
     
-    <lastmod>2020-10-28T12:46:44.674Z</lastmod>
+    <lastmod>2021-04-05</lastmod>
     
   </url>
   
   <url>
     <loc>https://liajoy.github.io/2019/04/28/optional-chaining/</loc>
     
-    <lastmod>2020-10-28T12:46:44.674Z</lastmod>
+    <lastmod>2021-04-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://liajoy.github.io/2019/09/23/multiple-mesh-optimize-in-webgl/</loc>
+    
+    <lastmod>2021-04-05</lastmod>
     
   </url>
   
   <url>
     <loc>https://liajoy.github.io/2020/03/26/ts-test-problem/</loc>
     
-    <lastmod>2020-10-28T12:46:44.674Z</lastmod>
+    <lastmod>2021-04-05</lastmod>
     
   </url>
   
   <url>
     <loc>https://liajoy.github.io/2020/02/10/word-break-and-word-wrap/</loc>
     
-    <lastmod>2020-10-28T12:46:44.674Z</lastmod>
-    
-  </url>
-  
-  <url>
-    <loc>https://liajoy.github.io/2019/05/22/cpu-to-gpu/</loc>
-    
-    <lastmod>2020-10-28T12:46:44.673Z</lastmod>
+    <lastmod>2021-04-05</lastmod>
     
   </url>
   
   <url>
     <loc>https://liajoy.github.io/2019/03/24/font-to-3d-text/</loc>
     
-    <lastmod>2020-10-28T12:46:44.673Z</lastmod>
+    <lastmod>2021-04-05</lastmod>
     
   </url>
   
   <url>
     <loc>https://liajoy.github.io/2019/12/23/image-outline/</loc>
     
-    <lastmod>2020-10-28T12:46:44.673Z</lastmod>
+    <lastmod>2021-04-05</lastmod>
+    
+  </url>
+  
+  <url>
+    <loc>https://liajoy.github.io/2019/05/22/cpu-to-gpu/</loc>
+    
+    <lastmod>2021-04-05</lastmod>
     
   </url>
   
   <url>
     <loc>https://liajoy.github.io/2018/03/12/a-tale-of-four-caches/</loc>
     
-    <lastmod>2020-10-28T12:46:44.672Z</lastmod>
+    <lastmod>2021-04-05</lastmod>
     
   </url>
   
   <url>
     <loc>https://liajoy.github.io/2017/12/29/about-script-and-link-tag/</loc>
     
-    <lastmod>2020-10-28T12:46:44.672Z</lastmod>
+    <lastmod>2021-04-05</lastmod>
     
   </url>
   
   <url>
     <loc>https://liajoy.github.io/2019/12/31/blob-url-scope/</loc>
     
-    <lastmod>2020-10-28T12:46:44.672Z</lastmod>
+    <lastmod>2021-04-05</lastmod>
     
   </url>
   
   <url>
     <loc>https://liajoy.github.io/2018/10/26/canvas-text/</loc>
     
-    <lastmod>2020-10-28T12:46:44.672Z</lastmod>
+    <lastmod>2021-04-05</lastmod>
     
   </url>
+  
+
+  <url>
+    <loc>https://liajoy.github.io/</loc>
+    <lastmod>2021-04-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>1.0</priority>
+  </url>
+
+  
+  <url>
+    <loc>https://liajoy.github.io/tags/%E8%AE%A1%E7%AE%97%E6%9C%BA%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2021-04-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://liajoy.github.io/tags/%E7%BD%91%E7%BB%9C/</loc>
+    <lastmod>2021-04-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://liajoy.github.io/tags/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%9F%BA%E7%A1%80/</loc>
+    <lastmod>2021-04-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://liajoy.github.io/tags/Canvas/</loc>
+    <lastmod>2021-04-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://liajoy.github.io/tags/WebGL/</loc>
+    <lastmod>2021-04-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://liajoy.github.io/tags/%E5%9B%BE%E5%83%8F%E5%A4%84%E7%90%86/</loc>
+    <lastmod>2021-04-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://liajoy.github.io/tags/%E5%BC%80%E5%BF%83%E6%95%B0%E5%AD%A6/</loc>
+    <lastmod>2021-04-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://liajoy.github.io/tags/Javascript/</loc>
+    <lastmod>2021-04-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://liajoy.github.io/tags/typescript/</loc>
+    <lastmod>2021-04-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+  <url>
+    <loc>https://liajoy.github.io/tags/CSS/</loc>
+    <lastmod>2021-04-05</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.6</priority>
+  </url>
+  
+
   
 </urlset>
